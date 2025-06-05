@@ -32,5 +32,4 @@ A simple RESTful Task Manager API built with **Node.js** and **Express**, using 
 
 ---
 
-## 📁 Project Structure
 
