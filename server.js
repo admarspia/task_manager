@@ -7,42 +7,44 @@ const DATA_FILE = './tasks.json';
 
 app.use(bodyParser.json());
 
-// Optional: Show a simple page at root
 app.get('/', (req, res) => {
   res.send('<h1 style="font-family:sans-serif;">✅ Task Manager API is running</h1>');
 });
 
-// Read tasks from file
 const readTasks = () => {
   const data = fs.readFileSync(DATA_FILE, 'utf-8');
   return JSON.parse(data);
 };
 
-// Write tasks to file
 const writeTasks = (tasks) => {
   fs.writeFileSync(DATA_FILE, JSON.stringify(tasks, null, 2));
 };
 
-// GET all tasks
 app.get('/api/tasks', (req, res) => {
   const tasks = readTasks();
   res.json(tasks);
 });
 
-// POST new task
 app.post('/api/tasks', (req, res) => {
+  const { title } = req.body;
+
+  if (!title || title.trim() === '') {
+    return res.status(400).json({ error: 'task title cannot be empty.' });
+  }
+
   const tasks = readTasks();
   const newTask = {
     id: Date.now(),
-    title: req.body.title,
+    title: title.trim(),  
     completed: false
   };
+
   tasks.push(newTask);
   writeTasks(tasks);
   res.status(201).json(newTask);
 });
 
-// PUT mark task as completed
+
 app.put('/api/tasks/:id', (req, res) => {
   const tasks = readTasks();
   const taskId = parseInt(req.params.id);
@@ -52,11 +54,10 @@ app.put('/api/tasks/:id', (req, res) => {
     writeTasks(tasks);
     res.json(task);
   } else {
-    res.status(404).json({ error: 'Task not found' });
+    res.status(404).json({ error: 'task not found' });
   }
 });
 
-// DELETE task
 app.delete('/api/tasks/:id', (req, res) => {
   let tasks = readTasks();
   const taskId = parseInt(req.params.id);
@@ -70,5 +71,5 @@ app.delete('/api/tasks/:id', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`✅ Server is running at http://localhost:${PORT}`);
+  console.log(` server is running at http://localhost:${PORT}`);
 });
