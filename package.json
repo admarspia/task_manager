@@ -13,7 +13,7 @@
     "API",
     "backend"
   ],
-  "author": "Your Name",
+  "author": "Haileamlak Desalegn",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.2",
