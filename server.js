@@ -74,7 +74,7 @@ app.delete('/api/tasks/:id', (req, res) => {
   const initialLength = tasks.length;
   tasks = tasks.filter(t => t.id !== taskId);
   if (tasks.length === initialLength) {
-    return res.status(404).json({ error: 'Task not found' });
+    return res.status(404).json({ error: 'task not found' });
   }
   writeTasks(tasks);
   res.status(204).send();
