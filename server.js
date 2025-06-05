@@ -20,8 +20,18 @@ const writeTasks = (tasks) => {
   fs.writeFileSync(DATA_FILE, JSON.stringify(tasks, null, 2));
 };
 
-app.get('/api/tasks', (req, res) => {
+app.get('/api/tasks/', (req, res) => {
   const tasks = readTasks();
+  const { status } = req.query;
+
+  if (status === 'completed') {
+    return res.json(tasks.filter(task => task.completed));
+  }
+
+  if (status === 'pending') {
+    return res.json(tasks.filter(task => !task.completed));
+  }
+
   res.json(tasks);
 });
 
