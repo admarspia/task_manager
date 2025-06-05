@@ -8,7 +8,7 @@ const DATA_FILE = './tasks.json';
 app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
-  res.send('<h1 style="font-family:sans-serif;">✅ Task Manager API is running</h1>');
+  res.send('<h1 style="font-family:sans-serif;"> app is running</h1>');
 });
 
 const readTasks = () => {
